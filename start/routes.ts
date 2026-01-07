@@ -45,3 +45,7 @@ router.post('/api/v1/AddStudents', [StudentsController, 'store'])
 //endpoint to update student details
 // ***** ENDPOINT #4  ***** //
 router.put('/api/v1/students/:id', [StudentsController, 'update'])
+
+//endpoint to update V2 a student
+// ***** ENDPOINT #5  ***** //
+router.patch('/api/v1/students/:id', [StudentsController, 'update'])
