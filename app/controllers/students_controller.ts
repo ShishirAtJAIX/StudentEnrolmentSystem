@@ -33,15 +33,33 @@ export default class StudentsController {
 }    
  // *** ADD A NEW STUDENT ***//
 public async store({ request, response }: HttpContext) {
-    try {
-      const data = await studentStoreValidator.validate(request.body())
-      const Student = (await import('#models/students')).default
-      const student = await Student.create(data) //data means all columns in the referenced table
-      return response.created({ student, message: 'Student created successfully' })
-    } catch (error) {
-      return response.badRequest({ error: error.messages })
+  try {
+    const data = await studentStoreValidator.validate(request.body())
+    
+    // Check for existing email
+    const Student = (await import('#models/students')).default
+    const existing = await Student
+      .query()
+      .where('emailAddress', data.emailAddress)
+      .first()
+    
+    if (existing) {
+      return response.conflict({ 
+        error: 'Student with this email address already exists' 
+      })
     }
+    
+    const student = await Student.create(data)
+    return response.created({ 
+      student, 
+      message: 'Student created successfully' 
+    })
+  } catch (error) {
+    return response.badRequest({ 
+      error: error.messages || error.message || 'Validation failed' 
+    })
   }
+}
 
  // New update method
   public async update({ params, request, response }: HttpContext) {
