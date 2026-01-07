@@ -41,3 +41,7 @@ router.get('/api/v1/students/:id', [StudentsController, 'show2'])
 //endpoint to add students
 // ***** ENDPOINT #3  ***** //
 router.post('/api/v1/AddStudents', [StudentsController, 'store'])
+
+//endpoint to update student details
+// ***** ENDPOINT #4  ***** //
+router.put('/api/v1/students/:id', [StudentsController, 'update'])
