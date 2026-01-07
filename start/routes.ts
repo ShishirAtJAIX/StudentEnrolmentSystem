@@ -43,3 +43,6 @@ router.group(() => {
 
 // ***** ENDPOINT #1  ***** //
 router.get('/api/v1/students', [StudentsController, 'show'])
+
+// ***** ENDPOINT #2  ***** //
+router.get('/api/v1/students/:id', [StudentsController, 'show2'])
