@@ -35,7 +35,7 @@ public async store({ request, response }: HttpContext) {
     try {
       const data = await studentStoreValidator.validate(request.body())
       const Student = (await import('#models/students')).default
-      const student = await Student.create(data)
+      const student = await Student.create(data) //data means all columns in the referenced table
       return response.created({ student, message: 'Student created successfully' })
     } catch (error) {
       return response.badRequest({ error: error.messages })
