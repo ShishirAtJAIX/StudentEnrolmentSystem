@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import {studentStoreValidator} from '#validators/student_store'
+import {studentUpdateValidator} from '#validators/student_update'
 
 export default class StudentsController {
 
@@ -42,7 +43,23 @@ public async store({ request, response }: HttpContext) {
     }
   }
 
-  public static async update() {}
+ // New update method
+  public async update({ params, request, response }: HttpContext) {
+    try {
+      const data = await studentUpdateValidator.validate(request.body())
+      const Student = (await import('#models/students')).default
+      const student = await Student.find(params.id)
+      
+      if (!student) {
+        return response.notFound({ error: 'Student not found' })
+      }
+      
+      await student.merge(data).save()
+      return response.ok({ student, message: 'Student updated successfully' })
+    } catch (error) {
+      return response.badRequest({ error: error.messages })
+    }
+  }
 
   public static async destroy() {}
 }
