@@ -49,3 +49,7 @@ router.put('/api/v1/students/:id', [StudentsController, 'update'])
 //endpoint to update V2 a student
 // ***** ENDPOINT #5  ***** //
 router.patch('/api/v1/students/:id', [StudentsController, 'update'])
+
+//endpoint to delete a student
+// ***** ENDPOINT #6  ***** //
+router.delete('/api/v1/students/:id', [StudentsController, 'destroy'])

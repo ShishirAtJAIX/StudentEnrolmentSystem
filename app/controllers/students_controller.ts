@@ -61,5 +61,20 @@ public async store({ request, response }: HttpContext) {
     }
   }
 
-  public static async destroy() {}
+  public async destroy({ params, response }: HttpContext) {
+  try {
+    const Student = (await import('#models/students')).default
+    const student = await Student.find(params.id)
+    
+    if (!student) {
+      return response.notFound({ error: 'Student not found' })
+    }
+    
+    await student.delete()
+    
+    return response.noContent()  // 204 No Content for successful DELETE
+  } catch (error) {
+    return response.internalServerError({ error: 'Failed to delete student' })
+  }
+}
 }
