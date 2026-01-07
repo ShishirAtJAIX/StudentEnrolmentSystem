@@ -37,3 +37,7 @@ router.get('/api/v1/students', [StudentsController, 'show'])
 
 // ***** ENDPOINT #2  ***** //
 router.get('/api/v1/students/:id', [StudentsController, 'show2'])
+
+//endpoint to add students
+// ***** ENDPOINT #3  ***** //
+router.post('/api/v1/AddStudents', [StudentsController, 'store'])

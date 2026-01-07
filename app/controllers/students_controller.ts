@@ -1,4 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
+import {studentStoreValidator} from '#validators/student_store'
+
 export default class StudentsController {
 
   // *** GET ALL STUDENTS ***//
@@ -28,7 +30,17 @@ export default class StudentsController {
     return response.internalServerError({ error: 'Failed to retrieve student' })
   }
 }    
- 
+ // *** ADD A NEW STUDENT ***//
+public async store({ request, response }: HttpContext) {
+    try {
+      const data = await studentStoreValidator.validate(request.body())
+      const Student = (await import('#models/students')).default
+      const student = await Student.create(data)
+      return response.created({ student, message: 'Student created successfully' })
+    } catch (error) {
+      return response.badRequest({ error: error.messages })
+    }
+  }
 
   public static async update() {}
 
